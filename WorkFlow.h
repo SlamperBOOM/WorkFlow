@@ -4,6 +4,10 @@
 #include "IBlockCreator.h"
 #include <string>
 #include <map>
+#include <memory>
+#include "Exceptions/MultiplyMakersEx.h"
+#include "Exceptions/NoBlockEx.h"
+
 
 class WorkFlow
 {
@@ -18,7 +22,7 @@ public:
 	{
 		if (makers.find(blockname) != makers.end())
 		{
-			throw new std::exception("Myltiply makers for given key");
+			throw MultiplyMakersEx();
 		}
 		makers[blockname] = maker;
 	}
@@ -28,7 +32,7 @@ public:
 		auto i = makers.find(blockname);
 		if (i == makers.end())
 		{
-			throw std::exception("No such block");
+			throw NoBlockEx();
 		}
 		IBlockCreator* creator = i->second;
 		return creator->CreateBlock();
@@ -36,6 +40,8 @@ public:
 
 private:
 	WorkFlow() = default;
+	WorkFlow(const WorkFlow& flow) = default;
+	WorkFlow& operator=(const WorkFlow& flow) = default;
 
 	std::map<const std::string, IBlockCreator*> makers;
 

@@ -1,4 +1,5 @@
 #include <fstream>
+#include <exception>
 #include "dump.h"
 
 BlockCreator<dump> creator("dump");
@@ -7,17 +8,23 @@ std::list<std::string> dump::execute(const std::list<std::string>& text, const s
 {
     if (argv.size() < 1)
     {
-        throw std::exception("Not enough agruments").what();
+        throw std::invalid_argument("Not enough agruments").what();
     }
     if (argv.size() > 1)
     {
-        throw std::exception("Too much agruments").what();
+        throw std::invalid_argument("Too much agruments").what();
     }
     std::ofstream dump(argv[0]);
+    if (!dump.is_open())
+    {
+        std::cerr << "Cannot open dump file!" << std::endl;
+        return text;
+    }
     for (auto line : text)
     {
         dump << line << std::endl;
     }
+    dump.close();
     return text;
 }
 

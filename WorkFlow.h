@@ -4,7 +4,6 @@
 #include "IBlockCreator.h"
 #include <string>
 #include <map>
-#include <memory>
 #include "Exceptions/MultiplyMakersEx.h"
 #include "Exceptions/NoBlockEx.h"
 

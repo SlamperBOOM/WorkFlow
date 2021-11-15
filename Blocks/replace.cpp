@@ -1,3 +1,4 @@
+#include <exception>
 #include "replace.h"
 
 BlockCreator<replace> creator("replace");
@@ -6,11 +7,11 @@ std::list<std::string> replace::execute(const std::list<std::string>& text, cons
 {
     if (argv.size() < 2)
     {
-        throw std::exception("Not enough agruments").what();
+        throw std::invalid_argument("Not enough agruments").what();
     }
     if (argv.size() > 2)
     {
-        throw std::exception("Too much agruments").what();
+        throw std::invalid_argument("Too much agruments").what();
     }
 
     std::list<std::string> newtext;
@@ -19,7 +20,7 @@ std::list<std::string> replace::execute(const std::list<std::string>& text, cons
         size_t pos;
         while((pos = line.find(argv[0])) != std::string::npos)
         {
-            line.replace(pos, argv[0].size(), argv[1] + ' ');
+            line.replace(pos, argv[0].size(), argv[1]);
         }
         newtext.push_back(line);
     }

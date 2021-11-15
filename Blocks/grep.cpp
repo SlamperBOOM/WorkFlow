@@ -1,3 +1,4 @@
+#include <exception>
 #include "grep.h"
 
 BlockCreator<grep> creator("grep");
@@ -6,11 +7,11 @@ std::list<std::string> grep::execute(const std::list<std::string>& text, const s
 {
 	if (argv.size() < 1)
 	{
-		throw std::exception("Not enough arguments").what();
+		throw std::invalid_argument("Not enough arguments").what();
 	}
 	if (argv.size() > 1)
 	{
-		throw std::exception("Too much arguments").what();
+		throw std::invalid_argument("Too much arguments").what();
 	}
 	std::list<std::string> newtext;
 	for (auto line : text)

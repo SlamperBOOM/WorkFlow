@@ -1,4 +1,6 @@
 #include <fstream>
+#include <iostream>
+#include <exception>
 #include "readfile.h"
 
 BlockCreator<readfile> creator("readfile");
@@ -7,14 +9,19 @@ std::list<std::string> readfile::execute(const std::list<std::string>& text, con
 {
 	if (argv.size() < 1)
 	{
-		throw std::exception("Not enough arguments").what();
+		throw std::invalid_argument("Not enough arguments").what();
 	}
 	if (argv.size() > 1)
 	{
-		throw std::exception("Too much arguments").what();
+		throw std::invalid_argument("Too much arguments").what();
 	}
 	std::list<std::string> newtext;
 	std::ifstream input(argv[0]);
+	if (!input.is_open())
+	{
+		std::cerr << "Cannot open input file!" << std::endl;
+		return text;
+	}
 	std::string line;
 	while (std::getline(input, line))
 	{

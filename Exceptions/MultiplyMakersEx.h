@@ -1,6 +1,5 @@
 #pragma once
 #include <exception>
-#include <string>
 
 class MultiplyMakersEx : public std::exception
 {
@@ -9,11 +8,11 @@ public:
 
 	const char* what() const noexcept 
 	{
-		return message.c_str();
+		return message;
 	}
 
 private:
 
-	std::string message = "Multiply makers for given block!";
+	const char* message = "Multiply makers for given block!";
 };
 

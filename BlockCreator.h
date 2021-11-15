@@ -1,7 +1,9 @@
 #pragma once
 
+#include <iostream>
 #include "IBlockCreator.h"
 #include "WorkFlow.h"
+#include "Exceptions/NoBlockEx.h"
 
 class WorkFlow;
 
@@ -11,7 +13,15 @@ class BlockCreator : public IBlockCreator
 public:
 	BlockCreator(const std::string& blockname)
 	{
-		WorkFlow::Instance().RegisterCreator(blockname, this);
+		try
+		{
+			WorkFlow::Instance().RegisterCreator(blockname, this);
+		}
+		catch (std::exception& ex)
+		{
+			std::cerr << "Error: " << ex.what() << std::endl;
+			abort();
+		}
 	}
 
 	virtual Block* CreateBlock() override

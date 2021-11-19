@@ -5,7 +5,7 @@
 #include <vector>
 #include "BlockCreator.h"
 
-enum class BlockType {
+enum BlockType {
 	IN,
 	OUT,
 	INOUT

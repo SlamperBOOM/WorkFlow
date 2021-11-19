@@ -8,12 +8,19 @@
 int main()
 {
     WorkFlowExe executor;
-    std::ifstream input("input.txt");
+    std::ifstream input("input1.txt");
     if (!input.is_open())
     {
         std::cerr << "File cannot be opened!" << std::endl;
         return 0;
     }
-	executor.ExecuteWorkFlow(input);
+    try
+    {
+        executor.ExecuteWorkFlow(input);
+    }
+    catch (std::exception &ex) 
+    {
+        std::cerr << "Error: " << ex.what() << std::endl;
+    }
     return 0;
 }

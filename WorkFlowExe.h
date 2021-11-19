@@ -6,6 +6,7 @@
 #include <exception>
 #include <iostream>
 #include <list>
+#include <memory>
 #include "Exceptions/NoBlockEx.h"
 #include "Exceptions/WrongTypeEx.h"
 
@@ -32,23 +33,11 @@ public:
 			blocks.insert(block);
 		}
 		//создание экземпляров блоков с аргументами
-		std::map<size_t, std::pair <Block *, std::vector<std::string >>> blockobjects;
+		std::map<size_t, std::pair <std::shared_ptr<Block>, std::vector<std::string >>> blockobjects;
 		for (auto i : blocks)
 		{
-			std::pair <Block*, std::vector<std::string >> pair1;
-			try 
-			{
-				pair1 = std::make_pair(WorkFlow::Instance().CreateBlock(i.second.first), i.second.second);
-			}
-			catch(std::exception &ex)
-			{
-				std::cerr << "Error: " << ex.what() << std::endl;
-				for (auto k : blockobjects)
-				{
-					delete k.second.first;
-				}
-				return;
-			}
+			std::shared_ptr<Block> b(WorkFlow::Instance().CreateBlock(i.second.first));
+			auto pair1 = std::make_pair(b, i.second.second);
 			auto pair = std::make_pair(i.first, pair1);
 			blockobjects.insert(pair);
 		}
@@ -67,56 +56,39 @@ public:
 			commands.push_back(id);
 			line.erase(0, pos + 2);
 		}
-		try 
+		BlockType b;
+		if ((b = blockobjects[commands[0]].first->GetType()) != BlockType::IN)
 		{
-			if (blockobjects[commands[0]].first->GetType() != BlockType::IN)
+			std::string message = "expected IN block type, but got " + GetBlockTypeStr(b);
+			throw WrongTypeEx(message);
+		}
+		for (size_t i = 1; i < commands.size() - 1; ++i)
+		{
+			if ((b = blockobjects[commands[i]].first->GetType()) != BlockType::INOUT)
 			{
-				throw WrongTypeEx();
-			}
-			for (size_t i = 1; i < commands.size() - 1; ++i)
-			{
-				if (blockobjects[commands[i]].first->GetType() != BlockType::INOUT)
-				{
-					throw WrongTypeEx();
-				}
-			}
-			if (blockobjects[commands[commands.size() - 1]].first->GetType() != BlockType::OUT)
-			{
-				throw WrongTypeEx();
+				std::string message = "expected INOUT block type, but got " + GetBlockTypeStr(b);
+				throw WrongTypeEx(message);
 			}
 		}
-		catch (std::exception& ex)
+		if (blockobjects[commands[commands.size() - 1]].first->GetType() != BlockType::OUT)
 		{
-			std::cerr << "Error: " << ex.what() << std::endl;
-			for (auto k : blockobjects)
-			{
-				delete k.second.first;
-			}
-			return;
+			std::string message = "expected OUT block type, but got " + GetBlockTypeStr(b);
+			throw WrongTypeEx(message);
 		}
 		//WorkFlow
 		std::list<std::string> text;
 		for (size_t i = 0; i < commands.size(); ++i)
 		{
-			try 
-			{
-				text = blockobjects[commands[i]].first->execute(text, blockobjects[commands[i]].second);
-			}
-			catch (std::exception& ex)
-			{
-				std::cerr << "Error: " << ex.what() << std::endl;
-				for (auto k : blockobjects)
-				{
-					delete k.second.first;
-				}
-				return;
-			}
+			text = blockobjects[commands[i]].first->execute(text, blockobjects[commands[i]].second);
 		}
+	}
 
-		for (auto i : blockobjects)
-		{
-			delete i.second.first;
-		}
+private:
+	std::string GetBlockTypeStr(BlockType b)
+	{
+		if (b == BlockType::IN) return "IN";
+		else if (b == BlockType::INOUT) return "INOUT";
+		else return "OUT";
 	}
 };
 

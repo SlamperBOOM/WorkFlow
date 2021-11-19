@@ -8,11 +8,11 @@ std::list<std::string> dump::execute(const std::list<std::string>& text, const s
 {
     if (argv.size() < 1)
     {
-        throw std::invalid_argument("Not enough agruments").what();
+        throw std::invalid_argument("Not enough agruments");
     }
     if (argv.size() > 1)
     {
-        throw std::invalid_argument("Too much agruments").what();
+        throw std::invalid_argument("Too much agruments");
     }
     std::ofstream dump(argv[0]);
     if (!dump.is_open())

@@ -9,11 +9,11 @@ std::list<std::string> readfile::execute(const std::list<std::string>& text, con
 {
 	if (argv.size() < 1)
 	{
-		throw std::invalid_argument("Not enough arguments").what();
+		throw std::invalid_argument("Not enough arguments");
 	}
 	if (argv.size() > 1)
 	{
-		throw std::invalid_argument("Too much arguments").what();
+		throw std::invalid_argument("Too much arguments");
 	}
 	std::list<std::string> newtext;
 	std::ifstream input(argv[0]);

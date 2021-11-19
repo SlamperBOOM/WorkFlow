@@ -7,11 +7,11 @@ std::list<std::string> replace::execute(const std::list<std::string>& text, cons
 {
     if (argv.size() < 2)
     {
-        throw std::invalid_argument("Not enough agruments").what();
+        throw std::invalid_argument("Not enough agruments");
     }
     if (argv.size() > 2)
     {
-        throw std::invalid_argument("Too much agruments").what();
+        throw std::invalid_argument("Too much agruments");
     }
 
     std::list<std::string> newtext;

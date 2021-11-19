@@ -9,11 +9,11 @@ std::list<std::string> writefile::execute(const std::list<std::string>& text, co
 {
 	if (argv.size() < 1)
 	{
-		throw std::invalid_argument("Not enough arguments").what();
+		throw std::invalid_argument("Not enough arguments");
 	}
 	if (argv.size() > 1)
 	{
-		throw std::invalid_argument("Too much arguments").what();
+		throw std::invalid_argument("Too much arguments");
 	}
 	std::ofstream output(argv[0]);
 	if (!output.is_open())

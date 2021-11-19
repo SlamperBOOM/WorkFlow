@@ -15,7 +15,7 @@ class WorkFlowExe
 public:
 	void ExecuteWorkFlow(std::ifstream &input)
 	{
-		//чтение блоков
+		//Г·ГІГҐГ­ГЁГҐ ГЎГ«Г®ГЄГ®Гў/
 		std::string line;
 		std::getline(input, line);
 		if (line != "desc")
@@ -32,7 +32,7 @@ public:
 			auto block = BlocksParser::GetBlock(line);
 			blocks.insert(block);
 		}
-		//создание экземпляров блоков с аргументами
+		//Г±Г®Г§Г¤Г Г­ГЁГҐ ГЅГЄГ§ГҐГ¬ГЇГ«ГїГ°Г®Гў ГЎГ«Г®ГЄГ®Гў Г± Г Г°ГЈГіГ¬ГҐГ­ГІГ Г¬ГЁ
 		std::map<size_t, std::pair <std::shared_ptr<Block>, std::vector<std::string >>> blockobjects;
 		for (auto i : blocks)
 		{
@@ -41,7 +41,7 @@ public:
 			auto pair = std::make_pair(i.first, pair1);
 			blockobjects.insert(pair);
 		}
-		//чтение последовательности выполнения блоков
+		//Г·ГІГҐГ­ГЁГҐ ГЇГ®Г±Г«ГҐГ¤Г®ГўГ ГІГҐГ«ГјГ­Г®Г±ГІГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї ГЎГ«Г®ГЄГ®Гў
 		std::vector<size_t> commands;
 		std::getline(input, line);
 		while (line.size() != 0)

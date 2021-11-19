@@ -15,7 +15,7 @@ class WorkFlowExe
 public:
 	void ExecuteWorkFlow(std::ifstream &input)
 	{
-		//÷òåíèå áëîêîâ/
+		//reading blocks
 		std::string line;
 		std::getline(input, line);
 		if (line != "desc")
@@ -32,7 +32,7 @@ public:
 			auto block = BlocksParser::GetBlock(line);
 			blocks.insert(block);
 		}
-		//ñîçäàíèå ýêçåìïëÿðîâ áëîêîâ ñ àðãóìåíòàìè
+		//creating block classes
 		std::map<size_t, std::pair <std::shared_ptr<Block>, std::vector<std::string >>> blockobjects;
 		for (auto i : blocks)
 		{
@@ -41,7 +41,7 @@ public:
 			auto pair = std::make_pair(i.first, pair1);
 			blockobjects.insert(pair);
 		}
-		//÷òåíèå ïîñëåäîâàòåëüíîñòè âûïîëíåíèÿ áëîêîâ
+		//read command line
 		std::vector<size_t> commands;
 		std::getline(input, line);
 		while (line.size() != 0)

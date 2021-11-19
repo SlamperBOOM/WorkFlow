@@ -13,15 +13,7 @@ class BlockCreator : public IBlockCreator
 public:
 	BlockCreator(const std::string& blockname)
 	{
-		try
-		{
-			WorkFlow::Instance().RegisterCreator(blockname, this);
-		}
-		catch (std::exception& ex)
-		{
-			std::cerr << "Error: " << ex.what() << std::endl;
-			abort();
-		}
+		WorkFlow::Instance().RegisterCreator(blockname, this);
 	}
 
 	virtual Block* CreateBlock() override

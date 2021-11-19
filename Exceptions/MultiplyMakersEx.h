@@ -8,11 +8,11 @@ public:
 
 	const char* what() const noexcept 
 	{
-		return message;
+		return message.c_str();
 	}
 
 private:
 
-	const char* message = "Multiply makers for given block!";
+	std::string message = "Multiply makers for given block!";
 };
 

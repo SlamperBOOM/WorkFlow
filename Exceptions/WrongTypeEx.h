@@ -6,12 +6,17 @@ class WrongTypeEx : public std::exception
 public:
 	WrongTypeEx() = default;
 
+	WrongTypeEx(std::string &mes)
+	{
+		message = mes.c_str();
+	}
+
 	const char* what() const noexcept
 	{
-		return message;
+		return message.c_str();
 	}
 
 private:
 
-	const char* message = "Wrong type of block in WorkFlow!";
+	std::string message = "Wrong type of block in WorkFlow!";
 };
